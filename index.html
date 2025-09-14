@@ -1,0 +1,280 @@
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Perfil Yuffie</title>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  background: url("https://images.unsplash.com/photo-1643447727844-1e2e31544237?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.1.0") no-repeat center center fixed;
+  background-size: cover;
+  font-family: 'Quicksand', sans-serif;
+  color: #e6e6e6;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: url("https://i.imgur.com/bw9HXpN.png"), auto;
+  position: relative;
+}
+
+/* Overlay oscuro */
+#bg-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 0;
+}
+
+/* Puntos (estrellas/nieve minimal) */
+#stars {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.star {
+  position: absolute;
+  top: -10px;
+  width: 3px;
+  height: 3px;
+  background: #fff;
+  border-radius: 50%;
+  opacity: .85;
+  animation: fall linear infinite, twinkle ease-in-out infinite;
+}
+@keyframes fall {
+  0% { transform: translateY(-10px) translateX(0); }
+  100% { transform: translateY(110vh) translateX(var(--drift,0px)); }
+}
+@keyframes twinkle {
+  0%,100% { opacity: .9; }
+  50%     { opacity: .3; }
+}
+
+/* Ventanas translúcidas */
+.window {
+  background: rgba(15,15,15,0.45);
+  backdrop-filter: blur(12px) brightness(1.05);
+  -webkit-backdrop-filter: blur(12px) brightness(1.05);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.7);
+  font-size: 13px;
+  position: absolute;
+  overflow: hidden;
+  z-index: 2;
+  color: #f2f2f2;
+}
+
+/* === PERFIL === */
+.profile-window { width: 285px; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+.profile-header {
+  background: rgba(35,35,35,0.6);
+  height: 26px; display: flex; align-items: center; justify-content: center;
+  position: relative; cursor: grab;
+}
+.profile-header::before {
+  content: ""; width: 45px; height: 2px;
+  background: #ccc;
+  border-radius: 10px;
+  position: absolute; top: 12px;
+}
+.profile-content { padding: 12px; }
+.username {
+  font-size: 26px; font-family: 'UnifrakturCook', cursive; margin-bottom: 12px; text-align: center;
+  background: linear-gradient(to right, #fff, #bbb, #333);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 2px;
+}
+.profile-main { display: flex; align-items: flex-start; gap: 12px; }
+.profile-main img {
+  width: 100px; height: 100px;
+  border-radius: 8px;
+  border: 2px solid rgba(255,255,255,0.25);
+  object-fit: cover;
+  flex: 0 0 auto;
+  filter: grayscale(100%) contrast(120%) brightness(90%);
+}
+.profile-info { font-size: 12px; line-height: 1.4; color: #ddd; }
+.profile-info a { color: #f2f2f2; text-decoration: none; font-weight: 600; }
+.profile-info a:hover { text-decoration: underline; }
+.quote { margin-top: 8px; font-style: italic; font-size: 11px; text-align: center; color: #aaa; }
+
+.music-btn {
+  font-size: 18px;
+  color: #f5f5f5;
+  cursor: pointer;
+  margin: 20px auto 10px; /* 🔥 más arriba */
+  display: block;
+  text-align: center;
+  font-family: 'UnifrakturCook', cursive;
+}
+
+/* === REPRODUCTOR === */
+.music-player { width: 300px; top: 90px; left: 90px; display: none; border-radius: 14px; }
+.music-header {
+  background: rgba(40,40,40,0.6);
+  color: #fff;
+  padding: 6px 10px;
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: grab;
+}
+.music-content { padding: 12px; text-align: center; }
+.music-content img {
+  width: 100px; height: 100px;
+  border-radius: 8px;
+  border: 2px solid rgba(255,255,255,0.25);
+  object-fit: cover;
+  margin-bottom: 8px;
+  filter: grayscale(100%) contrast(120%) brightness(90%);
+}
+.music-title { font-size: 13px; font-weight: 600; margin-bottom: 8px; color: #e6e6e6; }
+.progress { width: 90%; height: 5px; background: rgba(255,255,255,0.1); margin: 6px auto; border-radius: 4px; }
+.progress span { display: block; height: 5px; width: 0%; background: linear-gradient(to right, #fff, #666); border-radius: 4px; }
+
+.controls { margin-top: 10px; display: flex; justify-content: center; gap: 12px; }
+.controls button {
+  font-size: 18px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer; transition: .3s;
+  width: 45px; height: 45px;
+  line-height: 45px;
+}
+.controls button:hover { background: rgba(255,255,255,0.25); }
+</style>
+</head>
+<body>
+
+<div id="bg-overlay"></div>
+<div id="stars"></div> <!-- ✨ puntos cayendo -->
+
+<!-- PERFIL -->
+<div class="window profile-window" id="profileWindow">
+  <div class="profile-header" id="profileHeader"></div>
+  <div class="profile-content">
+    <div class="username">Yuffie</div>
+    <div class="profile-main">
+      <img src="https://i.ibb.co/WpyD6jkx/nill11.png" alt="icono perfil">
+      <div class="profile-info">
+        hey! i'm <b>@yuffie</b> <br>
+        from ¿?<br>
+        <span>🞮 <a href="#"> don't text me</a></span> i hate u all. <br>
+        bye; <span> &lt;3 <a href="#"></a></span>
+      </div>
+    </div>
+    <div class="quote">“Qui sembra vent, recull tempesta.”</div>
+  </div>
+  <div class="music-btn" onclick="openMusicPlayer()">𝄞</div>
+</div>
+
+<!-- REPRODUCTOR -->
+<div class="window music-player" id="musicPlayer">
+  <div class="music-header" id="musicHeader">
+    <div>yuffie’s playlist</div>
+    <div style="cursor:pointer;" onclick="closeMusicPlayer()">X</div>
+  </div>
+  <div class="music-content">
+    <img src="https://i.ibb.co/Fbdz5dDv/nill10.png" alt="icono reproductor">
+    <div class="music-title" id="trackTitle">♪ Playing...</div>
+    <audio id="audioPlayer" preload="auto"></audio>
+    <div class="progress"><span id="progressBar"></span></div>
+    <div class="controls">
+      <button onclick="prevTrack()">⏮</button>
+      <button id="playBtn" onclick="togglePlay()">▶</button>
+      <button onclick="nextTrack()">⏭</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ✨ Puntos cayendo */
+(function makeStars(){
+  const container = document.getElementById('stars');
+  const COUNT = 80; // más cantidad
+  for(let i=0;i<COUNT;i++){
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = 1 + Math.random()*2;
+    s.style.width = size + 'px';
+    s.style.height = size + 'px';
+    s.style.left = Math.random()*100 + 'vw';
+    const duration = 6 + Math.random()*8;
+    const delay = Math.random()*8;
+    s.style.animationDuration = duration + 's, ' + (2 + Math.random()*2) + 's';
+    s.style.animationDelay = delay + 's, ' + (Math.random()*2) + 's';
+    s.style.setProperty('--drift', (Math.random()*40-20) + 'px');
+    container.appendChild(s);
+  }
+})();
+
+/* 🎵 Playlist */
+const playlist = [
+  { title: "Dead Man's Bones - In The Room Where You Sleep", url: "https://www.dropbox.com/scl/fi/3r8b6dneea8unnly20hc1/Dead-Man-s-Bones-In-The-Room-Where-You-Sleep.mp3?dl=1" },
+  { title: "Sopor Aeternus - In der Palästra", url: "https://www.dropbox.com/scl/fi/x02nrh1jk31nvs0soihm0/Sopor-Aeternus-In-der-Pal-stra.mp3?dl=1" },
+  { title: "Twin Tribes - Monolith", url: "https://www.dropbox.com/scl/fi/981mgy30dx3kmnx4ffulo/Twin-Tribes-Monolith.mp3?dl=1" },
+  { title: "Witching Hour - Ligea", url: "https://www.dropbox.com/scl/fi/ng428vtgci0lvw5gd3xpw/Witching-Hour-Ligea.mp3?dl=1" }
+];
+
+let currentTrack = 0;
+const audio = document.getElementById("audioPlayer");
+const playBtn = document.getElementById("playBtn");
+const progressBar = document.getElementById("progressBar");
+const trackTitle = document.getElementById("trackTitle");
+
+function loadTrack(index){
+  currentTrack = (index + playlist.length) % playlist.length;
+  audio.src = playlist[currentTrack].url;
+  trackTitle.textContent = "♪ Playing: " + playlist[currentTrack].title;
+  audio.play();
+  playBtn.textContent = "❚❚";
+}
+function togglePlay(){
+  if(audio.paused){ audio.play(); playBtn.textContent = "❚❚"; }
+  else{ audio.pause(); playBtn.textContent = "▶"; }
+}
+function nextTrack(){ loadTrack(currentTrack+1); }
+function prevTrack(){ loadTrack(currentTrack-1); }
+
+audio.ontimeupdate = function(){
+  if(!isFinite(audio.duration)) return;
+  let percentage = (audio.currentTime / audio.duration) * 100;
+  progressBar.style.width = percentage + "%";
+};
+audio.onended = () => nextTrack();
+
+/* Drag ventanas */
+function openMusicPlayer(){ document.getElementById("musicPlayer").style.display="block"; if(audio.src===""){loadTrack(0);} }
+function closeMusicPlayer(){ document.getElementById("musicPlayer").style.display="none"; }
+
+function makeDraggable(windowId, headerId){
+  const dragElement = document.getElementById(windowId);
+  const dragHandle = document.getElementById(headerId);
+  let offsetX=0, offsetY=0, isDown=false;
+
+  dragHandle.addEventListener("mousedown", e=>{
+    isDown=true; offsetX=e.clientX-dragElement.offsetLeft; offsetY=e.clientY-dragElement.offsetTop; dragHandle.style.cursor="grabbing";
+  });
+  document.addEventListener("mouseup", ()=>{ isDown=false; dragHandle.style.cursor="grab"; });
+  document.addEventListener("mousemove", e=>{
+    if(!isDown) return;
+    dragElement.style.left=(e.clientX-offsetX)+"px";
+    dragElement.style.top=(e.clientY-offsetY)+"px";
+  });
+}
+makeDraggable("profileWindow","profileHeader");
+makeDraggable("musicPlayer","musicHeader");
+</script>
+
+</body>
+</html>
